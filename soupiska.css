@@ -1,0 +1,278 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #eee;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #111;
+}
+
+.toolbar {
+  max-width: 210mm;
+  margin: 16px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+
+button {
+  font: inherit;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  padding: 9px 14px;
+  background: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #f4f4f4;
+}
+
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto 20px;
+  background: white;
+  padding: 11mm 14mm 4mm;
+  box-shadow: 0 2px 15px #0002;
+}
+
+header {
+  height: 27mm;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12mm;
+}
+
+.logo {
+  width: 54mm;
+  height: auto;
+  object-fit: contain;
+}
+
+h1 {
+  font-size: 20pt;
+  margin: 0;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: 30mm 1fr 22mm 21mm;
+  gap: 1.5mm 1.5mm;
+  align-items: center;
+  margin: 1mm 0 2mm;
+  font-size: 10pt;
+}
+
+.meta label {
+  white-space: nowrap;
+}
+
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+  min-width: 0;
+}
+
+.meta input {
+  height: 8mm;
+  border: 1px solid #777;
+  border-radius: 4px;
+  padding: 1mm 2mm;
+  width: 100%;
+  background: transparent;
+}
+
+.sheet {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 9pt;
+}
+
+.sheet th,
+.sheet td {
+  border: 1px solid #444;
+  padding: 0;
+  text-align: center;
+  font-weight: normal;
+}
+
+.sheet th {
+  height: 6.3mm;
+  font-size: 7.5pt;
+  white-space: nowrap;
+}
+
+.sheet tbody tr {
+  height: 7.35mm;
+}
+
+.sheet td input {
+  width: 100%;
+  height: 7.1mm;
+  padding: 0 1mm;
+  border: 0;
+  background: transparent;
+  text-align: center;
+  font-size: 9pt;
+  outline-offset: -2px;
+}
+
+.sheet td:nth-child(2) input {
+  text-align: left;
+  padding-left: 2mm;
+}
+
+.sheet td:first-child {
+  width: 3.6%;
+}
+
+.sheet col:nth-child(2) {
+  width: 34%;
+}
+
+.sheet col:nth-child(3) {
+  width: 11.5%;
+}
+
+.sheet col:nth-child(4) {
+  width: 6%;
+}
+
+.sheet col:nth-child(5),
+.sheet col:nth-child(6),
+.sheet col:nth-child(7) {
+  width: 9%;
+}
+
+.sheet col:nth-child(8) {
+  width: 8%;
+}
+
+.sheet col:nth-child(9) {
+  width: 9.9%;
+}
+
+.legend {
+  text-align: right;
+  font-size: 8.3pt;
+  margin: 1mm 0 2mm;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: 48mm 1fr;
+  gap: 2mm 2mm;
+  align-items: center;
+}
+
+.details label {
+  font-size: 10pt;
+  font-weight: bold;
+}
+
+.details small {
+  display: block;
+  font-size: 8pt;
+  font-weight: normal;
+  margin-top: 1mm;
+}
+
+.details textarea {
+  width: 100%;
+  height: 14mm;
+  resize: vertical;
+  border: 1px solid #777;
+  border-radius: 4px;
+  padding: 2mm;
+  font-size: 10pt;
+}
+
+.signatures {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 21mm;
+  margin-top: 2mm;
+}
+
+.signature {
+  height: 31mm;
+  border: 1px solid #777;
+  border-radius: 4px;
+  position: relative;
+  font-size: 8pt;
+  text-align: center;
+  padding: 1mm;
+}
+
+.signature textarea {
+  position: absolute;
+  inset: 6mm 1mm 1mm;
+  width: calc(100% - 2mm);
+  height: calc(100% - 7mm);
+  border: 0;
+  resize: none;
+  background: transparent;
+  font-size: 10pt;
+}
+
+input:focus,
+textarea:focus {
+  outline: 2px solid #7aa7dc;
+  outline-offset: -2px;
+}
+
+@media (max-width: 850px) {
+  .toolbar {
+    margin: 12px;
+    flex-wrap: wrap;
+  }
+
+  .page {
+    margin: 0 auto;
+    box-shadow: none;
+  }
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  html,
+  body {
+    margin: 0;
+    background: white;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .toolbar {
+    display: none;
+  }
+
+  .page {
+    margin: 0;
+    box-shadow: none;
+    width: 210mm;
+    height: 297mm;
+    min-height: 0;
+    break-after: page;
+  }
+
+  input,
+  textarea {
+    outline: none !important;
+    resize: none !important;
+  }
+}

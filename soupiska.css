@@ -14,9 +14,45 @@ body {
   margin: 16px auto;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   gap: 12px;
   font-size: 13px;
+}
+
+.roster-loader {
+  flex: 1;
+}
+
+.roster-loader > label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.roster-loader__controls {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.roster-loader textarea {
+  width: 100%;
+  min-height: 58px;
+  padding: 8px 10px;
+  resize: vertical;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  background: white;
+}
+
+.load-status {
+  display: block;
+  margin-top: 4px;
+  color: #555;
+}
+
+.load-status--error {
+  color: #a40000;
 }
 
 button {
@@ -30,6 +66,11 @@ button {
 
 button:hover {
   background: #f4f4f4;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.65;
 }
 
 .page {
@@ -241,6 +282,10 @@ textarea:focus {
     margin: 0 auto;
     box-shadow: none;
   }
+
+  .roster-loader__controls {
+    flex-direction: column;
+  }
 }
 
 @media print {
@@ -268,6 +313,22 @@ textarea:focus {
     height: 297mm;
     min-height: 0;
     break-after: page;
+  }
+
+  .sheet tbody tr {
+    height: 7.1mm;
+  }
+
+  .sheet td input {
+    height: 6.85mm;
+  }
+
+  .details textarea {
+    height: 13mm;
+  }
+
+  .signature {
+    height: 27mm;
   }
 
   input,

@@ -173,6 +173,20 @@ button:disabled {
   box-shadow: 0 2px 15px #0002;
 }
 
+.contact-footer {
+  margin: 0 auto 24px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.contact-footer a {
+  color: #555;
+}
+
+.contact-footer a:hover {
+  color: #111;
+}
+
 header {
   height: 27mm;
   display: flex;
@@ -526,7 +540,8 @@ textarea:focus {
     print-color-adjust: exact;
   }
 
-  .toolbar {
+  .toolbar,
+  .contact-footer {
     display: none;
   }
 

@@ -14,15 +14,112 @@
           <textarea
             id="lok-numbers"
             rows="2"
-            placeholder="Např. 191, 84, 46120"
+            placeholder="Např. 191, -, 84, 46120"
             aria-describedby="load-status"
           ></textarea>
           <button type="button" id="load-players">Načíst soupisku</button>
         </div>
+        <div class="roster-settings">
+          <label for="row-count">
+            Počet řádků
+            <input id="row-count" type="number" min="1" max="20" value="20" />
+          </label>
+          <label for="base-lineup-count">
+            Členů základní sestavy
+            <input
+              id="base-lineup-count"
+              type="number"
+              min="0"
+              max="20"
+              value="8"
+            />
+          </label>
+        </div>
         <span id="load-status" class="load-status" role="status"></span>
       </div>
-      <button type="button" id="print">Tisk / Uložit jako PDF</button>
+      <div class="toolbar-actions">
+        <button
+          class="help-button"
+          type="button"
+          id="open-help"
+          aria-label="Jak vyplnit soupisku"
+          title="Jak vyplnit soupisku"
+        >
+          ?
+        </button>
+        <button type="button" id="print">Tisk / Uložit jako PDF</button>
+      </div>
     </div>
+    <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">
+      <div class="help-dialog__header">
+        <h2 id="help-title">Jak vyplnit soupisku</h2>
+        <button
+          class="help-dialog__close"
+          type="button"
+          id="close-help"
+          aria-label="Zavřít nápovědu"
+        >
+          ×
+        </button>
+      </div>
+
+      <ol class="help-dialog__steps">
+        <li>
+          Do pole
+          <strong>Čísla LOK</strong>
+          vlož evidenční čísla hráčů v požadovaném pořadí. Oddělit je můžeš
+          čárkou, mezerou, středníkem nebo novým řádkem.
+        </li>
+        <li>
+          Pomlčka
+          <code>-</code>
+          vynechá daný řádek. Například
+          <code>191, -, 84</code>
+          načte hráče do prvního a třetího řádku, druhý zůstane volný pro ruční
+          doplnění.
+        </li>
+        <li>
+          Nastav
+          <strong>počet řádků</strong>
+          a
+          <strong>počet členů základní sestavy</strong>
+          . První členové základní sestavy dostanou automaticky označení
+          <strong>Z</strong>
+          a za posledním z nich se zobrazí silnější čára.
+        </li>
+        <li>
+          Tlačítko
+          <strong>Načíst soupisku</strong>
+          stáhne údaje hráčů z API. Nic se nestahuje automaticky po obnovení
+          stránky. Načtené hodnoty lze v tabulce ručně upravit.
+        </li>
+        <li>
+          V poznámce můžeš zvolit
+          <strong>Z</strong>
+          – základní sestava,
+          <strong>H</strong>
+          – host,
+          <strong>C</strong>
+          – cizinec,
+          <strong>K</strong>
+          – kapitán a
+          <strong>ZK</strong>
+          – zástupce kapitána. Kapitán i zástupce mohou být každý označeni
+          nejvýše u jednoho hráče. Pole
+          <strong>Další</strong>
+          přijme vlastní označení do 6 znaků.
+        </li>
+        <li>
+          Základní údaje a nastavení se průběžně ukládají v tomto prohlížeči.
+          Obrázek razítka je potřeba po obnovení stránky nahrát znovu.
+        </li>
+        <li>
+          Nakonec použij
+          <strong>Tisk / Uložit jako PDF</strong>
+          . Ovládací prvky se do výsledné soupisky nevytisknou.
+        </li>
+      </ol>
+    </dialog>
     <main class="page">
       <header>
         <img class="logo" alt="Šachový svaz České republiky" src="logo.jpg" />
@@ -64,548 +161,7 @@
               <th>Poznámka *</th>
             </tr>
           </thead>
-          <tbody id="players">
-            <tr>
-              <td>1</td>
-              <td>
-                <input name="player_1_1" type="text" />
-              </td>
-              <td>
-                <input name="player_1_2" type="text" />
-              </td>
-              <td>
-                <input name="player_1_3" type="text" />
-              </td>
-              <td>
-                <input name="player_1_4" type="text" />
-              </td>
-              <td>
-                <input name="player_1_5" type="text" />
-              </td>
-              <td>
-                <input name="player_1_6" type="text" />
-              </td>
-              <td>
-                <input name="player_1_7" type="text" />
-              </td>
-              <td>
-                <input name="player_1_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>
-                <input name="player_2_1" type="text" />
-              </td>
-              <td>
-                <input name="player_2_2" type="text" />
-              </td>
-              <td>
-                <input name="player_2_3" type="text" />
-              </td>
-              <td>
-                <input name="player_2_4" type="text" />
-              </td>
-              <td>
-                <input name="player_2_5" type="text" />
-              </td>
-              <td>
-                <input name="player_2_6" type="text" />
-              </td>
-              <td>
-                <input name="player_2_7" type="text" />
-              </td>
-              <td>
-                <input name="player_2_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>
-                <input name="player_3_1" type="text" />
-              </td>
-              <td>
-                <input name="player_3_2" type="text" />
-              </td>
-              <td>
-                <input name="player_3_3" type="text" />
-              </td>
-              <td>
-                <input name="player_3_4" type="text" />
-              </td>
-              <td>
-                <input name="player_3_5" type="text" />
-              </td>
-              <td>
-                <input name="player_3_6" type="text" />
-              </td>
-              <td>
-                <input name="player_3_7" type="text" />
-              </td>
-              <td>
-                <input name="player_3_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>
-                <input name="player_4_1" type="text" />
-              </td>
-              <td>
-                <input name="player_4_2" type="text" />
-              </td>
-              <td>
-                <input name="player_4_3" type="text" />
-              </td>
-              <td>
-                <input name="player_4_4" type="text" />
-              </td>
-              <td>
-                <input name="player_4_5" type="text" />
-              </td>
-              <td>
-                <input name="player_4_6" type="text" />
-              </td>
-              <td>
-                <input name="player_4_7" type="text" />
-              </td>
-              <td>
-                <input name="player_4_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>5</td>
-              <td>
-                <input name="player_5_1" type="text" />
-              </td>
-              <td>
-                <input name="player_5_2" type="text" />
-              </td>
-              <td>
-                <input name="player_5_3" type="text" />
-              </td>
-              <td>
-                <input name="player_5_4" type="text" />
-              </td>
-              <td>
-                <input name="player_5_5" type="text" />
-              </td>
-              <td>
-                <input name="player_5_6" type="text" />
-              </td>
-              <td>
-                <input name="player_5_7" type="text" />
-              </td>
-              <td>
-                <input name="player_5_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>6</td>
-              <td>
-                <input name="player_6_1" type="text" />
-              </td>
-              <td>
-                <input name="player_6_2" type="text" />
-              </td>
-              <td>
-                <input name="player_6_3" type="text" />
-              </td>
-              <td>
-                <input name="player_6_4" type="text" />
-              </td>
-              <td>
-                <input name="player_6_5" type="text" />
-              </td>
-              <td>
-                <input name="player_6_6" type="text" />
-              </td>
-              <td>
-                <input name="player_6_7" type="text" />
-              </td>
-              <td>
-                <input name="player_6_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>7</td>
-              <td>
-                <input name="player_7_1" type="text" />
-              </td>
-              <td>
-                <input name="player_7_2" type="text" />
-              </td>
-              <td>
-                <input name="player_7_3" type="text" />
-              </td>
-              <td>
-                <input name="player_7_4" type="text" />
-              </td>
-              <td>
-                <input name="player_7_5" type="text" />
-              </td>
-              <td>
-                <input name="player_7_6" type="text" />
-              </td>
-              <td>
-                <input name="player_7_7" type="text" />
-              </td>
-              <td>
-                <input name="player_7_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>8</td>
-              <td>
-                <input name="player_8_1" type="text" />
-              </td>
-              <td>
-                <input name="player_8_2" type="text" />
-              </td>
-              <td>
-                <input name="player_8_3" type="text" />
-              </td>
-              <td>
-                <input name="player_8_4" type="text" />
-              </td>
-              <td>
-                <input name="player_8_5" type="text" />
-              </td>
-              <td>
-                <input name="player_8_6" type="text" />
-              </td>
-              <td>
-                <input name="player_8_7" type="text" />
-              </td>
-              <td>
-                <input name="player_8_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>9</td>
-              <td>
-                <input name="player_9_1" type="text" />
-              </td>
-              <td>
-                <input name="player_9_2" type="text" />
-              </td>
-              <td>
-                <input name="player_9_3" type="text" />
-              </td>
-              <td>
-                <input name="player_9_4" type="text" />
-              </td>
-              <td>
-                <input name="player_9_5" type="text" />
-              </td>
-              <td>
-                <input name="player_9_6" type="text" />
-              </td>
-              <td>
-                <input name="player_9_7" type="text" />
-              </td>
-              <td>
-                <input name="player_9_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td>
-                <input name="player_10_1" type="text" />
-              </td>
-              <td>
-                <input name="player_10_2" type="text" />
-              </td>
-              <td>
-                <input name="player_10_3" type="text" />
-              </td>
-              <td>
-                <input name="player_10_4" type="text" />
-              </td>
-              <td>
-                <input name="player_10_5" type="text" />
-              </td>
-              <td>
-                <input name="player_10_6" type="text" />
-              </td>
-              <td>
-                <input name="player_10_7" type="text" />
-              </td>
-              <td>
-                <input name="player_10_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>11</td>
-              <td>
-                <input name="player_11_1" type="text" />
-              </td>
-              <td>
-                <input name="player_11_2" type="text" />
-              </td>
-              <td>
-                <input name="player_11_3" type="text" />
-              </td>
-              <td>
-                <input name="player_11_4" type="text" />
-              </td>
-              <td>
-                <input name="player_11_5" type="text" />
-              </td>
-              <td>
-                <input name="player_11_6" type="text" />
-              </td>
-              <td>
-                <input name="player_11_7" type="text" />
-              </td>
-              <td>
-                <input name="player_11_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>12</td>
-              <td>
-                <input name="player_12_1" type="text" />
-              </td>
-              <td>
-                <input name="player_12_2" type="text" />
-              </td>
-              <td>
-                <input name="player_12_3" type="text" />
-              </td>
-              <td>
-                <input name="player_12_4" type="text" />
-              </td>
-              <td>
-                <input name="player_12_5" type="text" />
-              </td>
-              <td>
-                <input name="player_12_6" type="text" />
-              </td>
-              <td>
-                <input name="player_12_7" type="text" />
-              </td>
-              <td>
-                <input name="player_12_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>13</td>
-              <td>
-                <input name="player_13_1" type="text" />
-              </td>
-              <td>
-                <input name="player_13_2" type="text" />
-              </td>
-              <td>
-                <input name="player_13_3" type="text" />
-              </td>
-              <td>
-                <input name="player_13_4" type="text" />
-              </td>
-              <td>
-                <input name="player_13_5" type="text" />
-              </td>
-              <td>
-                <input name="player_13_6" type="text" />
-              </td>
-              <td>
-                <input name="player_13_7" type="text" />
-              </td>
-              <td>
-                <input name="player_13_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>14</td>
-              <td>
-                <input name="player_14_1" type="text" />
-              </td>
-              <td>
-                <input name="player_14_2" type="text" />
-              </td>
-              <td>
-                <input name="player_14_3" type="text" />
-              </td>
-              <td>
-                <input name="player_14_4" type="text" />
-              </td>
-              <td>
-                <input name="player_14_5" type="text" />
-              </td>
-              <td>
-                <input name="player_14_6" type="text" />
-              </td>
-              <td>
-                <input name="player_14_7" type="text" />
-              </td>
-              <td>
-                <input name="player_14_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>15</td>
-              <td>
-                <input name="player_15_1" type="text" />
-              </td>
-              <td>
-                <input name="player_15_2" type="text" />
-              </td>
-              <td>
-                <input name="player_15_3" type="text" />
-              </td>
-              <td>
-                <input name="player_15_4" type="text" />
-              </td>
-              <td>
-                <input name="player_15_5" type="text" />
-              </td>
-              <td>
-                <input name="player_15_6" type="text" />
-              </td>
-              <td>
-                <input name="player_15_7" type="text" />
-              </td>
-              <td>
-                <input name="player_15_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>16</td>
-              <td>
-                <input name="player_16_1" type="text" />
-              </td>
-              <td>
-                <input name="player_16_2" type="text" />
-              </td>
-              <td>
-                <input name="player_16_3" type="text" />
-              </td>
-              <td>
-                <input name="player_16_4" type="text" />
-              </td>
-              <td>
-                <input name="player_16_5" type="text" />
-              </td>
-              <td>
-                <input name="player_16_6" type="text" />
-              </td>
-              <td>
-                <input name="player_16_7" type="text" />
-              </td>
-              <td>
-                <input name="player_16_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>17</td>
-              <td>
-                <input name="player_17_1" type="text" />
-              </td>
-              <td>
-                <input name="player_17_2" type="text" />
-              </td>
-              <td>
-                <input name="player_17_3" type="text" />
-              </td>
-              <td>
-                <input name="player_17_4" type="text" />
-              </td>
-              <td>
-                <input name="player_17_5" type="text" />
-              </td>
-              <td>
-                <input name="player_17_6" type="text" />
-              </td>
-              <td>
-                <input name="player_17_7" type="text" />
-              </td>
-              <td>
-                <input name="player_17_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>18</td>
-              <td>
-                <input name="player_18_1" type="text" />
-              </td>
-              <td>
-                <input name="player_18_2" type="text" />
-              </td>
-              <td>
-                <input name="player_18_3" type="text" />
-              </td>
-              <td>
-                <input name="player_18_4" type="text" />
-              </td>
-              <td>
-                <input name="player_18_5" type="text" />
-              </td>
-              <td>
-                <input name="player_18_6" type="text" />
-              </td>
-              <td>
-                <input name="player_18_7" type="text" />
-              </td>
-              <td>
-                <input name="player_18_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>19</td>
-              <td>
-                <input name="player_19_1" type="text" />
-              </td>
-              <td>
-                <input name="player_19_2" type="text" />
-              </td>
-              <td>
-                <input name="player_19_3" type="text" />
-              </td>
-              <td>
-                <input name="player_19_4" type="text" />
-              </td>
-              <td>
-                <input name="player_19_5" type="text" />
-              </td>
-              <td>
-                <input name="player_19_6" type="text" />
-              </td>
-              <td>
-                <input name="player_19_7" type="text" />
-              </td>
-              <td>
-                <input name="player_19_8" type="text" />
-              </td>
-            </tr>
-            <tr>
-              <td>20</td>
-              <td>
-                <input name="player_20_1" type="text" />
-              </td>
-              <td>
-                <input name="player_20_2" type="text" />
-              </td>
-              <td>
-                <input name="player_20_3" type="text" />
-              </td>
-              <td>
-                <input name="player_20_4" type="text" />
-              </td>
-              <td>
-                <input name="player_20_5" type="text" />
-              </td>
-              <td>
-                <input name="player_20_6" type="text" />
-              </td>
-              <td>
-                <input name="player_20_7" type="text" />
-              </td>
-              <td>
-                <input name="player_20_8" type="text" />
-              </td>
-            </tr>
-          </tbody>
+          <tbody id="players"></tbody>
         </table>
         <p class="legend">
           * V - volný hráč, C - cizinec, H - host, Z - člen základní sestavy, K
@@ -629,11 +185,41 @@
           <textarea id="venue" name="venue"></textarea>
         </div>
         <div class="signatures">
-          <div class="signature">
+          <div class="signature" id="stamp-club-box">
             <label for="stamp-club">
               Razítko a podpis právního subjektu, kterého je družstvo součástí
             </label>
             <textarea id="stamp-club" name="stamp-club"></textarea>
+            <img
+              id="stamp-club-preview"
+              class="signature__preview"
+              alt="Nahrané razítko a podpis právního subjektu"
+              hidden
+            />
+            <div class="signature__upload-controls">
+              <label class="signature__button" for="stamp-club-image">
+                Nahrát obrázek
+              </label>
+              <input
+                class="visually-hidden"
+                id="stamp-club-image"
+                type="file"
+                accept=".png,.jpg,.jpeg,.webp,.svg,image/png,image/jpeg,image/webp,image/svg+xml"
+              />
+              <button
+                class="signature__button"
+                id="remove-stamp-club-image"
+                type="button"
+                hidden
+              >
+                Odebrat
+              </button>
+            </div>
+            <span
+              class="signature__upload-status"
+              id="stamp-club-upload-status"
+              role="status"
+            ></span>
           </div>
           <div class="signature">
             <label for="stamp-org">

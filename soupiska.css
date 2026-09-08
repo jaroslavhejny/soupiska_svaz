@@ -23,6 +23,75 @@ body {
   flex: 1;
 }
 
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.help-button {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  padding: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.help-dialog {
+  width: min(620px, calc(100% - 32px));
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  border: 0;
+  border-radius: 10px;
+  padding: 24px;
+  box-shadow: 0 12px 40px #0005;
+  color: #111;
+}
+
+.help-dialog::backdrop {
+  background: #0008;
+}
+
+.help-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.help-dialog h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.help-dialog__close {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  padding: 0;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.help-dialog__steps {
+  margin: 0;
+  padding-left: 24px;
+  line-height: 1.5;
+}
+
+.help-dialog__steps li + li {
+  margin-top: 10px;
+}
+
+.help-dialog code {
+  border-radius: 3px;
+  padding: 1px 4px;
+  background: #eee;
+}
+
 .roster-loader > label {
   display: block;
   margin-bottom: 4px;
@@ -42,6 +111,28 @@ body {
   resize: vertical;
   border: 1px solid #bbb;
   border-radius: 5px;
+  background: white;
+}
+
+.roster-settings {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.roster-settings label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.roster-settings input {
+  width: 62px;
+  height: 30px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  padding: 4px 6px;
   background: white;
 }
 
@@ -157,6 +248,10 @@ textarea {
   height: 7.35mm;
 }
 
+.sheet tbody tr.base-lineup-end td {
+  border-bottom: 2px solid #111;
+}
+
 .sheet td input {
   width: 100%;
   height: 7.1mm;
@@ -173,12 +268,62 @@ textarea {
   padding-left: 2mm;
 }
 
+.note-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  height: 100%;
+  padding: 1px;
+}
+
+.note-option {
+  min-width: 0;
+  border: 1px solid #aaa;
+  border-radius: 2px;
+  padding: 1px;
+  background: #fff;
+  font-size: 6pt;
+  line-height: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.note-option:hover {
+  background: #e8e8e8;
+}
+
+.note-option[aria-pressed="true"] {
+  border-color: #222;
+  background: #222;
+  color: #fff;
+  font-weight: bold;
+}
+
+.note-option[aria-pressed="true"]:hover {
+  background: #444;
+}
+
+.sheet td .note-custom {
+  width: 100%;
+  height: auto;
+  min-width: 0;
+  border: 1px solid #aaa;
+  border-radius: 2px;
+  padding: 1px;
+  background: #fff;
+  font-size: 6pt;
+  line-height: 1;
+  text-align: center;
+}
+
 .sheet td:first-child {
   width: 3.6%;
 }
 
 .sheet col:nth-child(2) {
-  width: 34%;
+  width: 29.9%;
 }
 
 .sheet col:nth-child(3) {
@@ -200,7 +345,7 @@ textarea {
 }
 
 .sheet col:nth-child(9) {
-  width: 9.9%;
+  width: 14%;
 }
 
 .legend {
@@ -266,6 +411,75 @@ textarea {
   font-size: 10pt;
 }
 
+.signature__preview {
+  position: absolute;
+  inset: 8mm 1mm 1mm;
+  width: calc(100% - 2mm);
+  height: calc(100% - 9mm);
+  object-fit: contain;
+}
+
+.signature__upload-controls {
+  position: absolute;
+  z-index: 1;
+  top: 11mm;
+  left: 50%;
+  display: flex;
+  gap: 6px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  transition: opacity 150ms ease;
+}
+
+.signature__button {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #bbb;
+  color: inherit;
+  border-radius: 5px;
+  padding: 5px 8px;
+  background: white;
+  cursor: pointer;
+  font: inherit;
+}
+
+.signature__button:hover {
+  background: #f4f4f4;
+}
+
+.signature--has-image .signature__upload-controls {
+  top: auto;
+  bottom: 2mm;
+  opacity: 0;
+}
+
+.signature--has-image:hover .signature__upload-controls,
+.signature--has-image:focus-within .signature__upload-controls {
+  opacity: 1;
+}
+
+.signature__upload-status {
+  position: absolute;
+  z-index: 2;
+  right: 1mm;
+  bottom: 1mm;
+  left: 1mm;
+  color: #a40000;
+  background: #fff;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 input:focus,
 textarea:focus {
   outline: 2px solid #7aa7dc;
@@ -286,6 +500,16 @@ textarea:focus {
   .roster-loader__controls {
     flex-direction: column;
   }
+
+  .roster-settings {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .toolbar-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
 }
 
 @media print {
@@ -303,6 +527,10 @@ textarea:focus {
   }
 
   .toolbar {
+    display: none;
+  }
+
+  .help-dialog {
     display: none;
   }
 
@@ -329,6 +557,52 @@ textarea:focus {
 
   .signature {
     height: 27mm;
+  }
+
+  .signature__upload-controls,
+  .signature__upload-status {
+    display: none;
+  }
+
+  .note-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7mm 1.2mm;
+    padding: 0;
+  }
+
+  .note-option {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: #111;
+    font-size: 8pt;
+    overflow: visible;
+    text-overflow: clip;
+    white-space: nowrap;
+  }
+
+  .note-option[aria-pressed="false"] {
+    display: none;
+  }
+
+  .note-option[aria-pressed="true"] {
+    background: transparent;
+    color: #111;
+  }
+
+  .sheet td .note-custom {
+    width: auto;
+    height: auto;
+    flex: 1 1 auto;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    font-size: 8pt;
+  }
+
+  .sheet td .note-custom:placeholder-shown {
+    display: none;
   }
 
   input,

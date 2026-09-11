@@ -187,6 +187,11 @@ button:disabled {
   color: #111;
 }
 
+.contact-footer p {
+  margin: 8px 12px 0;
+  color: #555;
+}
+
 header {
   height: 27mm;
   display: flex;
@@ -284,7 +289,7 @@ textarea {
 
 .note-options {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: center;
   justify-content: center;
   gap: 1px;
@@ -320,6 +325,7 @@ textarea {
 }
 
 .sheet td .note-custom {
+  grid-column: span 2;
   width: 100%;
   height: auto;
   min-width: 0;
@@ -543,6 +549,10 @@ textarea:focus {
   .toolbar,
   .contact-footer {
     display: none;
+  }
+
+  .nl-wrap {
+    display: none !important;
   }
 
   .help-dialog {

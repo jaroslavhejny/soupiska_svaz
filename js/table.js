@@ -15,6 +15,7 @@ window.Soupiska.table = (() => {
   const noteDefinitions = [
     { value: "Z", label: "Z", tooltip: "Z – základní sestava" },
     { value: "H", label: "H", tooltip: "H – host" },
+    { value: "V", label: "V", tooltip: "V – volný hráč" },
     { value: "C", label: "C", tooltip: "C – cizinec" },
     { value: "K", label: "K", tooltip: "K – kapitán" },
     { value: "ZK", label: "ZK", tooltip: "ZK – zástupce kapitána" },

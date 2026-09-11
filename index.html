@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Soupiska družstva</title>
     <link rel="stylesheet" href="soupiska.css" />
+    <script
+      defer
+      src="https://cloud.umami.is/script.js"
+      data-website-id="85771688-60b1-47cd-a64e-fb55c47bb711"
+    ></script>
   </head>
   <body>
     <div class="toolbar">
@@ -17,7 +22,13 @@
             placeholder="Např. 191, -, 84, 46120"
             aria-describedby="load-status"
           ></textarea>
-          <button type="button" id="load-players">Načíst soupisku</button>
+          <button
+            type="button"
+            id="load-players"
+            data-umami-event="load-roster"
+          >
+            Načíst soupisku
+          </button>
         </div>
         <div class="roster-settings">
           <label for="row-count">
@@ -47,7 +58,13 @@
         >
           ?
         </button>
-        <button type="button" id="print">Tisk / Uložit jako PDF</button>
+        <button
+          type="button"
+          id="print"
+          data-umami-event="print-pdf"
+        >
+          Tisk / Uložit jako PDF
+        </button>
       </div>
     </div>
     <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">
@@ -99,6 +116,8 @@
           – základní sestava,
           <strong>H</strong>
           – host,
+          <strong>V</strong>
+          – volný hráč,
           <strong>C</strong>
           – cizinec,
           <strong>K</strong>
@@ -232,6 +251,10 @@
     </main>
     <footer class="contact-footer">
       <a href="mailto:soupiskydruzstev@gmail.com">Kontaktuj autora</a>
+      <p>
+        Tento web používá Umami Analytics pro anonymní statistiku návštěvnosti.
+        Umami nepoužívá cookies a neidentifikuje jednotlivé návštěvníky.
+      </p>
     </footer>
     <script src="js/init.js"></script>
   </body>

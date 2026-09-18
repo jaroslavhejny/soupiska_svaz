@@ -551,10 +551,6 @@ textarea:focus {
     display: none;
   }
 
-  .nl-wrap {
-    display: none !important;
-  }
-
   .help-dialog {
     display: none;
   }

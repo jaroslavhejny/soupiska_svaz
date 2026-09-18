@@ -8,6 +8,29 @@
   </head>
   <body>
     <form class="loader-form" autocomplete="off">
+      <div class="competition-picker">
+        <label>
+          <span>Hledat soutěž</span>
+          <input
+            name="competition-filter"
+            type="search"
+            placeholder="Název soutěže nebo svazu"
+            disabled
+          />
+        </label>
+        <label>
+          <span>Svaz / oblast</span>
+          <select name="competition-parent" disabled>
+            <option value="">Vyber svaz nebo oblast</option>
+          </select>
+        </label>
+        <label class="nested-competition" hidden>
+          <span>Soutěž</span>
+          <select name="competition-select" disabled>
+            <option value="">Vyber soutěž</option>
+          </select>
+        </label>
+      </div>
       <label>
         <span>ID soutěže</span>
         <input
@@ -27,7 +50,10 @@
           <option value="">Vyber utkání</option>
         </select>
       </label>
-      <button type="submit">Načíst údaje</button>
+      <div class="loader-actions">
+        <button type="submit">Načíst údaje</button>
+        <button type="button" id="print">Tisk</button>
+      </div>
       <p class="loader-status" role="status" aria-live="polite"></p>
     </form>
 

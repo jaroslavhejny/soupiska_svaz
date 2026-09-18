@@ -2,12 +2,19 @@
   "use strict";
 
   var API_URL = "https://api.chess.cz/api/competitions/";
+  var DEFAULT_TITLE = document.title;
   var loaderForm = document.querySelector(".loader-form");
   var matchForm = document.querySelector(".match-record");
   var status = document.querySelector(".loader-status");
   var submitButton = loaderForm.querySelector('button[type="submit"]');
+  var printButton = document.getElementById("print");
   var matchSelector = document.querySelector(".match-selector");
   var matchSelect = loaderForm.elements.match;
+  var competitionFilter = loaderForm.elements["competition-filter"];
+  var competitionParent = loaderForm.elements["competition-parent"];
+  var competitionSelect = loaderForm.elements["competition-select"];
+  var nestedCompetition = document.querySelector(".nested-competition");
+  var competitionRegions = [];
   var roundMatches = [];
   var rosterController = null;
   var rosters = { home: [], away: [] };
@@ -69,6 +76,224 @@
     }
   }
 
+  function filenamePart(value) {
+    return String(value || "")
+      .replace(/\./g, "")
+      .replace(/[\\/:*?"<>|]/g, "-")
+      .trim()
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
+  }
+
+  function setDocumentTitle(match) {
+    document.title = [
+      matchForm.elements.competition.value,
+      match.homeTeamName,
+      match.awayTeamName,
+      matchForm.elements.date.value,
+    ]
+      .map(filenamePart)
+      .filter(Boolean)
+      .join("-");
+  }
+
+  function normalizeSearchText(value) {
+    return String(value || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLocaleLowerCase("cs");
+  }
+
+  function competitionSeasonStartYear(date) {
+    return date.getMonth() >= 6 ? date.getFullYear() : date.getFullYear() - 1;
+  }
+
+  function competitionMatchesFilter(competition, query) {
+    return normalizeSearchText(competition.compName).includes(query);
+  }
+
+  function regionMatchesFilter(region, query) {
+    if (!query) {
+      return true;
+    }
+
+    var regionText = normalizeSearchText(
+      region.regionCode + " " + region.regionName,
+    );
+
+    return (
+      regionText.includes(query) ||
+      region.competitions.some(function (competition) {
+        return competitionMatchesFilter(competition, query);
+      })
+    );
+  }
+
+  function filteredRegionCompetitions(region, query) {
+    if (
+      !query ||
+      normalizeSearchText(region.regionCode + " " + region.regionName).includes(
+        query,
+      )
+    ) {
+      return region.competitions;
+    }
+
+    return region.competitions.filter(function (competition) {
+      return competitionMatchesFilter(competition, query);
+    });
+  }
+
+  function renderCompetitionOptions() {
+    var selectedCompetition = competitionSelect.value;
+    var selectedRegion = competitionRegions.find(function (region) {
+      return region.regionId === competitionParent.value;
+    });
+
+    competitionSelect.length = 1;
+
+    if (!selectedRegion) {
+      competitionSelect.disabled = true;
+      nestedCompetition.hidden = true;
+      return;
+    }
+
+    var query = normalizeSearchText(competitionFilter.value.trim());
+    var competitions = filteredRegionCompetitions(selectedRegion, query);
+
+    competitions.forEach(function (competition) {
+      var option = document.createElement("option");
+      option.value = String(competition.compId);
+      option.textContent = competition.compName;
+      competitionSelect.appendChild(option);
+    });
+
+    if (
+      Array.from(competitionSelect.options).some(function (option) {
+        return option.value === selectedCompetition;
+      })
+    ) {
+      competitionSelect.value = selectedCompetition;
+    } else if (selectedCompetition) {
+      loaderForm.elements["competition-id"].value = "";
+    }
+
+    competitionSelect.disabled = competitions.length === 0;
+    nestedCompetition.hidden = false;
+  }
+
+  function renderCompetitionParents() {
+    var selectedRegion = competitionParent.value;
+    var query = normalizeSearchText(competitionFilter.value.trim());
+    var regions = competitionRegions.filter(function (region) {
+      return regionMatchesFilter(region, query);
+    });
+
+    competitionParent.length = 1;
+
+    regions.forEach(function (region) {
+      var option = document.createElement("option");
+      option.value = region.regionId;
+      option.textContent = region.regionCode + " – " + region.regionName;
+      competitionParent.appendChild(option);
+    });
+
+    if (
+      Array.from(competitionParent.options).some(function (option) {
+        return option.value === selectedRegion;
+      })
+    ) {
+      competitionParent.value = selectedRegion;
+    } else {
+      competitionParent.value = "";
+
+      if (selectedRegion) {
+        loaderForm.elements["competition-id"].value = "";
+      }
+    }
+
+    renderCompetitionOptions();
+  }
+
+  async function loadCompetitionChoices() {
+    var seasonYear = competitionSeasonStartYear(new Date());
+    var controller = new AbortController();
+    var timeout = setTimeout(function () {
+      controller.abort();
+    }, 20000);
+
+    setStatus(
+      "Načítám soutěže pro sezonu " +
+        seasonYear +
+        "/" +
+        (seasonYear + 1) +
+        "…",
+    );
+
+    try {
+      var data = await fetchJson(API_URL + seasonYear, controller.signal);
+
+      if (!data || typeof data !== "object" || Array.isArray(data)) {
+        throw new Error("API vrátilo neplatný seznam soutěží.");
+      }
+
+      competitionRegions = Object.keys(data)
+        .map(function (regionId) {
+          var region = data[regionId];
+
+          return {
+            regionId: regionId,
+            regionCode: region.regionCode || "",
+            regionName: region.regionName || "",
+            competitions: Array.isArray(region.competitions)
+              ? region.competitions.slice().sort(function (first, second) {
+                  return (
+                    Number(first.compLevel) - Number(second.compLevel) ||
+                    first.compName.localeCompare(second.compName, "cs")
+                  );
+                })
+              : [],
+          };
+        })
+        .filter(function (region) {
+          return region.competitions.length > 0;
+        })
+        .sort(function (first, second) {
+          if (first.regionId === "98") {
+            return -1;
+          }
+
+          if (second.regionId === "98") {
+            return 1;
+          }
+
+          return first.regionName.localeCompare(second.regionName, "cs");
+        });
+
+      competitionFilter.disabled = false;
+      competitionParent.disabled = false;
+      renderCompetitionParents();
+      setStatus(
+        "Vyberte svaz a soutěž pro sezonu " +
+          seasonYear +
+          "/" +
+          (seasonYear + 1) +
+          ".",
+      );
+    } catch (error) {
+      console.error("Seznam soutěží se nepodařilo načíst:", error);
+      setStatus(
+        error.name === "AbortError"
+          ? "Načítání soutěží trvalo příliš dlouho. ID lze zadat ručně."
+          : "Seznam soutěží se nepodařilo načíst. ID lze zadat ručně.",
+        "error",
+      );
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
   function resetPlayerSelect(select) {
     select.length = 1;
     select.value = "";
@@ -89,6 +314,7 @@
 
   function populatePlayerSelect(select, players, minimumPosition) {
     resetPlayerSelect(select);
+    select.dataset.minimumPosition = String(minimumPosition);
 
     players.forEach(function (player) {
       if (player.rosterPosition <= minimumPosition) {
@@ -101,7 +327,12 @@
       select.appendChild(option);
     });
 
-    select.disabled = select.options.length === 1;
+    var emptyOption = document.createElement("option");
+    emptyOption.value = "-";
+    emptyOption.textContent = "-";
+    select.appendChild(emptyOption);
+
+    select.disabled = false;
   }
 
   function setRoster(team, players) {
@@ -140,6 +371,7 @@
 
   function showRoundMatches(matches) {
     resetAllPlayerSelects();
+    document.title = DEFAULT_TITLE;
     roundMatches = matches;
     matchSelect.length = 1;
 
@@ -349,11 +581,13 @@
       resetAllPlayerSelects();
       matchForm.elements["home-team"].value = "";
       matchForm.elements["away-team"].value = "";
+      document.title = DEFAULT_TITLE;
       return;
     }
 
     matchForm.elements["home-team"].value = selectedMatch.homeTeamName;
     matchForm.elements["away-team"].value = selectedMatch.awayTeamName;
+    setDocumentTitle(selectedMatch);
     loadRosters(
       loaderForm.elements["competition-id"].value.trim(),
       selectedMatch,
@@ -371,15 +605,55 @@
       }
 
       if (select.value !== "" && board + 1 < selects.length) {
+        var minimumPosition =
+          select.value === "-"
+            ? Number(select.dataset.minimumPosition)
+            : Number(select.value);
+
         populatePlayerSelect(
           selects[board + 1],
           rosters[team],
-          Number(select.value),
+          minimumPosition,
         );
       }
     });
   });
 
+  window.addEventListener("beforeprint", function () {
+    playerSelects.home.concat(playerSelects.away).forEach(function (select) {
+      select.options[0].textContent = "";
+    });
+  });
+
+  window.addEventListener("afterprint", function () {
+    playerSelects.home.concat(playerSelects.away).forEach(function (select) {
+      select.options[0].textContent = "Vyberte hráče";
+    });
+  });
+
+  printButton.addEventListener("click", function () {
+    window.print();
+  });
+
+  competitionFilter.addEventListener("input", renderCompetitionParents);
+
+  competitionParent.addEventListener("change", function () {
+    competitionSelect.value = "";
+    loaderForm.elements["competition-id"].value = "";
+    renderCompetitionOptions();
+  });
+
+  competitionSelect.addEventListener("change", function () {
+    loaderForm.elements["competition-id"].value = competitionSelect.value;
+  });
+
+  loaderForm.elements["competition-id"].addEventListener("input", function () {
+    if (this.value !== competitionSelect.value) {
+      competitionSelect.value = "";
+    }
+  });
+
   resetAllPlayerSelects();
   hideMatchSelector();
+  loadCompetitionChoices();
 })();

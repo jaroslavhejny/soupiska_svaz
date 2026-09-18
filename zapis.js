@@ -10,7 +10,6 @@
   var printButton = document.getElementById("print");
   var matchSelector = document.querySelector(".match-selector");
   var matchSelect = loaderForm.elements.match;
-  var competitionFilter = loaderForm.elements["competition-filter"];
   var competitionParent = loaderForm.elements["competition-parent"];
   var competitionSelect = loaderForm.elements["competition-select"];
   var nestedCompetition = document.querySelector(".nested-competition");
@@ -98,51 +97,8 @@
       .join("-");
   }
 
-  function normalizeSearchText(value) {
-    return String(value || "")
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLocaleLowerCase("cs");
-  }
-
   function competitionSeasonStartYear(date) {
     return date.getMonth() >= 6 ? date.getFullYear() : date.getFullYear() - 1;
-  }
-
-  function competitionMatchesFilter(competition, query) {
-    return normalizeSearchText(competition.compName).includes(query);
-  }
-
-  function regionMatchesFilter(region, query) {
-    if (!query) {
-      return true;
-    }
-
-    var regionText = normalizeSearchText(
-      region.regionCode + " " + region.regionName,
-    );
-
-    return (
-      regionText.includes(query) ||
-      region.competitions.some(function (competition) {
-        return competitionMatchesFilter(competition, query);
-      })
-    );
-  }
-
-  function filteredRegionCompetitions(region, query) {
-    if (
-      !query ||
-      normalizeSearchText(region.regionCode + " " + region.regionName).includes(
-        query,
-      )
-    ) {
-      return region.competitions;
-    }
-
-    return region.competitions.filter(function (competition) {
-      return competitionMatchesFilter(competition, query);
-    });
   }
 
   function renderCompetitionOptions() {
@@ -159,8 +115,7 @@
       return;
     }
 
-    var query = normalizeSearchText(competitionFilter.value.trim());
-    var competitions = filteredRegionCompetitions(selectedRegion, query);
+    var competitions = selectedRegion.competitions;
 
     competitions.forEach(function (competition) {
       var option = document.createElement("option");
@@ -185,10 +140,7 @@
 
   function renderCompetitionParents() {
     var selectedRegion = competitionParent.value;
-    var query = normalizeSearchText(competitionFilter.value.trim());
-    var regions = competitionRegions.filter(function (region) {
-      return regionMatchesFilter(region, query);
-    });
+    var regions = competitionRegions;
 
     competitionParent.length = 1;
 
@@ -271,7 +223,6 @@
           return first.regionName.localeCompare(second.regionName, "cs");
         });
 
-      competitionFilter.disabled = false;
       competitionParent.disabled = false;
       renderCompetitionParents();
       setStatus(
@@ -634,8 +585,6 @@
   printButton.addEventListener("click", function () {
     window.print();
   });
-
-  competitionFilter.addEventListener("input", renderCompetitionParents);
 
   competitionParent.addEventListener("change", function () {
     competitionSelect.value = "";

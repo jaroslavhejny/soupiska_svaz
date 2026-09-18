@@ -5,19 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Zápis o konaném šachovém utkání</title>
     <link rel="stylesheet" href="zapis.css" />
+    <script
+      defer
+      src="https://cloud.umami.is/script.js"
+      data-website-id="85771688-60b1-47cd-a64e-fb55c47bb711"
+    ></script>
   </head>
   <body>
     <form class="loader-form" autocomplete="off">
       <div class="competition-picker">
-        <label>
-          <span>Hledat soutěž</span>
-          <input
-            name="competition-filter"
-            type="search"
-            placeholder="Název soutěže nebo svazu"
-            disabled
-          />
-        </label>
         <label>
           <span>Svaz / oblast</span>
           <select name="competition-parent" disabled>
@@ -51,8 +47,16 @@
         </select>
       </label>
       <div class="loader-actions">
-        <button type="submit">Načíst údaje</button>
-        <button type="button" id="print">Tisk</button>
+        <button type="submit" data-umami-event="load-match-record">
+          Načíst údaje
+        </button>
+        <button
+          type="button"
+          id="print"
+          data-umami-event="print-match-record"
+        >
+          Tisk
+        </button>
       </div>
       <p class="loader-status" role="status" aria-live="polite"></p>
     </form>

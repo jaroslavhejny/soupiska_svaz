@@ -35,7 +35,7 @@ body {
 .competition-picker {
   display: grid;
   grid-column: 1 / -1;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 2.5mm;
 }
 
@@ -242,13 +242,10 @@ tr > :first-child {
   font: inherit;
   font-weight: 700;
   padding: 0;
+  text-align: center;
 }
 
 .team-names th:last-child label {
-  text-align: right;
-}
-
-.team-names th:last-child input {
   text-align: right;
 }
 

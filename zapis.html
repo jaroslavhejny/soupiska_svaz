@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zápis o konaném šachovém utkání</title>
+    <link rel="stylesheet" href="zapis.css" />
+  </head>
+  <body>
+    <form class="loader-form" autocomplete="off">
+      <label>
+        <span>ID soutěže</span>
+        <input
+          name="competition-id"
+          type="text"
+          inputmode="numeric"
+          required
+        />
+      </label>
+      <label>
+        <span>Kolo</span>
+        <input name="round" type="number" min="1" step="1" required />
+      </label>
+      <label class="match-selector" hidden>
+        <span>Vyber utkání</span>
+        <select name="match">
+          <option value="">Vyber utkání</option>
+        </select>
+      </label>
+      <button type="submit">Načíst údaje</button>
+      <p class="loader-status" role="status" aria-live="polite"></p>
+    </form>
+
+    <main class="sheet">
+      <form class="match-record" autocomplete="off">
+        <header class="document-header">
+          <img
+            class="association-logo"
+            src="logo.jpg"
+            alt="Šachový svaz České republiky"
+          />
+          <h1>Zápis o konaném<br />šachovém utkání</h1>
+        </header>
+
+        <section class="match-details" aria-label="Údaje o utkání">
+          <label class="competition">
+            <span>Soutěž</span>
+            <input type="text" name="competition" />
+          </label>
+          <label class="group">
+            <span>Skupina</span>
+            <input type="text" name="group" />
+          </label>
+          <label class="season">
+            <span>Sezóna</span>
+            <input type="text" name="season" />
+          </label>
+          <label class="round">
+            <span>Kolo</span>
+            <input type="text" name="round" />
+          </label>
+          <label class="date">
+            <span>Hráno dne</span>
+            <input type="text" name="date" />
+          </label>
+          <label class="venue">
+            <span>v hrací místnosti</span>
+            <input type="text" name="venue" />
+          </label>
+        </section>
+
+        <section class="lineups" aria-labelledby="lineups-title">
+          <h2 id="lineups-title">Sestavy družstev a výsledky</h2>
+          <table>
+            <colgroup>
+              <col class="number-column" />
+              <col class="player-column" />
+              <col class="score-column" />
+              <col class="score-column" />
+              <col class="player-column" />
+              <col class="number-column" />
+            </colgroup>
+            <thead>
+              <tr class="team-names">
+                <th colspan="3">
+                  <label>
+                    <span>Domácí</span>
+                    <input name="home-team" aria-label="Domácí družstvo" />
+                  </label>
+                </th>
+                <th colspan="3">
+                  <label>
+                    <input name="away-team" aria-label="Hostující družstvo" />
+                    <span>Hosté</span>
+                  </label>
+                </th>
+              </tr>
+              <tr class="column-headings">
+                <th colspan="2">Příjmení, jméno (ELO FRL a LOK) hráče</th>
+                <th colspan="2">Body</th>
+                <th colspan="2">Příjmení, jméno (ELO FRL a LOK) hráče</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1.</th>
+                <td>
+                  <select class="player-select" data-team="home" data-board="0" aria-label="Domácí hráč 1" disabled>
+                    <option value="">Vyberte hráče</option>
+                  </select>
+                </td>
+                <td><input aria-label="Body domácího hráče 1" /></td>
+                <td><input aria-label="Body hostujícího hráče 1" /></td>
+                <td>
+                  <select class="player-select" data-team="away" data-board="0" aria-label="Hostující hráč 1" disabled>
+                    <option value="">Vyberte hráče</option>
+                  </select>
+                </td>
+                <th scope="row">1.</th>
+              </tr>
+              <tr>
+                <th scope="row">2.</th>
+                <td>
+                  <select class="player-select" data-team="home" data-board="1" aria-label="Domácí hráč 2" disabled>
+                    <option value="">Vyberte hráče</option>
+                  </select>
+                </td>
+                <td><input aria-label="Body domácího hráče 2" /></td>
+                <td><input aria-label="Body hostujícího hráče 2" /></td>
+                <td>
+                  <select class="player-select" data-team="away" data-board="1" aria-label="Hostující hráč 2" disabled>
+                    <option value="">Vyberte hráče</option>
+                  </select>
+                </td>
+                <th scope="row">2.</th>
+              </tr>
+              <tr>
+                <th scope="row">3.</th>
+                <td>
+                  <select class="player-select" data-team="home" data-board="2" aria-label="Domácí hráč 3" disabled>
+                    <option value="">Vyberte hráče</option>
+                  </select>
+                </td>
+                <td><input aria-label="Body domácího hráče 3" /></td>
+                <td><input aria-label="Body hostujícího hráče 3" /></td>
+                <td>
+                  <select class="player-select" data-team="away" data-board="2" aria-label="Hostující hráč 3" disabled>
+                    <option value="">Vyberte hráče</option>
+                  </select>
+                </td>
+                <th scope="row">3.</th>
+              </tr>
+              <tr>
+                <th scope="row">4.</th>
+                <td>
+                  <select class="player-select" data-team="home" data-board="3" aria-label="Domácí hráč 4" disabled>
+                    <option value="">Vyberte hráče</option>
+                  </select>
+                </td>
+                <td><input aria-label="Body domácího hráče 4" /></td>
+                <td><input aria-label="Body hostujícího hráče 4" /></td>
+                <td>
+                  <select class="player-select" data-team="away" data-board="3" aria-label="Hostující hráč 4" disabled>
+                    <option value="">Vyberte hráče</option>
+                  </select>
+                </td>
+                <th scope="row">4.</th>
+              </tr>
+              <tr>
+                <th scope="row">5.</th>
+                <td>
+                  <select class="player-select" data-team="home" data-board="4" aria-label="Domácí hráč 5" disabled>
+                    <option value="">Vyberte hráče</option>
+                  </select>
+                </td>
+                <td><input aria-label="Body domácího hráče 5" /></td>
+                <td><input aria-label="Body hostujícího hráče 5" /></td>
+                <td>
+                  <select class="player-select" data-team="away" data-board="4" aria-label="Hostující hráč 5" disabled>
+                    <option value="">Vyberte hráče</option>
+                  </select>
+                </td>
+                <th scope="row">5.</th>
+              </tr>
+              <tr>
+                <th scope="row">6.</th>
+                <td>
+                  <select class="player-select" data-team="home" data-board="5" aria-label="Domácí hráč 6" disabled>
+                    <option value="">Vyberte hráče</option>
+                  </select>
+                </td>
+                <td><input aria-label="Body domácího hráče 6" /></td>
+                <td><input aria-label="Body hostujícího hráče 6" /></td>
+                <td>
+                  <select class="player-select" data-team="away" data-board="5" aria-label="Hostující hráč 6" disabled>
+                    <option value="">Vyberte hráče</option>
+                  </select>
+                </td>
+                <th scope="row">6.</th>
+              </tr>
+              <tr>
+                <th scope="row">7.</th>
+                <td>
+                  <select class="player-select" data-team="home" data-board="6" aria-label="Domácí hráč 7" disabled>
+                    <option value="">Vyberte hráče</option>
+                  </select>
+                </td>
+                <td><input aria-label="Body domácího hráče 7" /></td>
+                <td><input aria-label="Body hostujícího hráče 7" /></td>
+                <td>
+                  <select class="player-select" data-team="away" data-board="6" aria-label="Hostující hráč 7" disabled>
+                    <option value="">Vyberte hráče</option>
+                  </select>
+                </td>
+                <th scope="row">7.</th>
+              </tr>
+              <tr>
+                <th scope="row">8.</th>
+                <td>
+                  <select class="player-select" data-team="home" data-board="7" aria-label="Domácí hráč 8" disabled>
+                    <option value="">Vyberte hráče</option>
+                  </select>
+                </td>
+                <td><input aria-label="Body domácího hráče 8" /></td>
+                <td><input aria-label="Body hostujícího hráče 8" /></td>
+                <td>
+                  <select class="player-select" data-team="away" data-board="7" aria-label="Hostující hráč 8" disabled>
+                    <option value="">Vyberte hráče</option>
+                  </select>
+                </td>
+                <th scope="row">8.</th>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2"></td>
+                <td><input aria-label="Celkem bodů domácí" /></td>
+                <td><input aria-label="Celkem bodů hosté" /></td>
+                <td colspan="2"></td>
+              </tr>
+            </tfoot>
+          </table>
+        </section>
+
+        <section class="arbiter-record" aria-label="Záznam rozhodčího">
+          <label>
+            <span>Jméno, příjmení a adresa rozhodčího:</span>
+            <input type="text" name="arbiter" />
+          </label>
+          <label class="notes-label" for="notes">
+            Záznam rozhodčího o průběhu utkání s event. bližším rozpisem
+            přestupků či sporů. Příp. námitky kapitánů (připojte za zprávu
+            rozhodčího).
+          </label>
+          <textarea id="notes" name="notes"></textarea>
+        </section>
+
+        <footer class="signatures">
+          <p>Správnost zápisu potvrzují</p>
+          <div class="signature-boxes">
+            <label>
+              <span>kapitán domácího družstva</span>
+              <textarea name="home-captain-signature"></textarea>
+            </label>
+            <label>
+              <span>rozhodčí</span>
+              <textarea name="arbiter-signature"></textarea>
+            </label>
+            <label>
+              <span>kapitán hostujícího družstva</span>
+              <textarea name="away-captain-signature"></textarea>
+            </label>
+          </div>
+        </footer>
+      </form>
+    </main>
+    <script src="zapis.js"></script>
+  </body>
+</html>

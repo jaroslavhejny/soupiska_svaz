@@ -1,0 +1,436 @@
+:root {
+  color: #231f20;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10pt;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: #e8e8e8;
+}
+
+body {
+  padding: 12mm 0;
+}
+
+.loader-form {
+  display: grid;
+  width: 210mm;
+  margin: 0 auto 5mm;
+  padding: 4mm 20mm;
+  grid-template-columns: minmax(0, 1fr) 25mm minmax(0, 1.5fr) auto;
+  align-items: end;
+  gap: 2.5mm;
+  border-radius: 1.5mm;
+  background: #fff;
+  box-shadow: 0 1mm 4mm rgb(0 0 0 / 18%);
+}
+
+.loader-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 1mm;
+  font-weight: 700;
+}
+
+.loader-form input,
+.loader-form select,
+.loader-form button {
+  height: 9mm;
+  border: 0.3mm solid #555;
+  border-radius: 1.3mm;
+  font: inherit;
+}
+
+.loader-form input,
+.loader-form select {
+  min-width: 0;
+  padding: 1mm 2mm;
+  background: #fff;
+}
+
+.loader-form [hidden] {
+  display: none;
+}
+
+.loader-form button {
+  padding: 1mm 4mm;
+  border-color: #222;
+  background: #222;
+  color: #fff;
+  cursor: pointer;
+}
+
+.loader-form button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.loader-status {
+  min-height: 1.2em;
+  margin: 0;
+  grid-column: 1 / -1;
+  color: #555;
+}
+
+.loader-status[data-state="error"] {
+  color: #a40000;
+}
+
+.sheet {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  padding: 10mm 20mm 10mm;
+  background: #fff;
+  box-shadow: 0 1mm 4mm rgb(0 0 0 / 18%);
+}
+
+.match-record {
+  display: flex;
+  min-height: 277mm;
+  flex-direction: column;
+}
+
+.document-header {
+  display: flex;
+  min-height: 28mm;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.association-logo {
+  display: block;
+  width: 51mm;
+  height: auto;
+}
+
+h1 {
+  margin: 0 0 0 10mm;
+  font-size: 19pt;
+  font-weight: 800;
+  line-height: 1.08;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.match-details {
+  display: grid;
+  margin-top: 1.5mm;
+  grid-template-columns: 28% 28% 16% 10%;
+  gap: 1.5mm 2.5%;
+}
+
+.match-details label,
+.arbiter-record label {
+  display: flex;
+  flex-direction: column;
+}
+
+.match-details span,
+.arbiter-record span {
+  display: block;
+  margin: 0 0 0.6mm 1mm;
+  line-height: 1;
+}
+
+.match-details input,
+.arbiter-record input {
+  width: 100%;
+  height: 7.3mm;
+  border: 0.3mm solid currentcolor;
+  border-radius: 1.3mm;
+  background: #fff;
+  font: inherit;
+  padding: 0.8mm 1.5mm;
+}
+
+.match-details .date {
+  grid-column: 1;
+}
+
+.match-details .venue {
+  grid-column: 2 / -1;
+}
+
+.lineups {
+  margin-top: 3.2mm;
+}
+
+h2 {
+  margin: 0 0 2.2mm;
+  font-size: 16pt;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+.number-column {
+  width: 3.7%;
+}
+
+.player-column {
+  width: 40.9%;
+}
+
+.score-column {
+  width: 5.4%;
+}
+
+th,
+td {
+  padding: 0;
+  border-right: 0.25mm solid currentcolor;
+  border-bottom: 0.25mm solid currentcolor;
+  font-weight: 400;
+}
+
+thead tr:first-child th {
+  border-top: 0.25mm solid currentcolor;
+}
+
+tr > :first-child {
+  border-left: 0.25mm solid currentcolor;
+}
+
+.team-names th {
+  height: 10mm;
+  padding: 0 2mm 0.7mm;
+  vertical-align: bottom;
+  text-align: left;
+}
+
+.team-names label {
+  display: flex;
+  align-items: center;
+  gap: 1.5mm;
+}
+
+.team-names input {
+  height: 8mm;
+  min-width: 0;
+  min-height: 0;
+  flex: 1;
+  border: 0;
+  outline-offset: -0.5mm;
+  background: transparent;
+  font: inherit;
+  font-weight: 700;
+  padding: 0;
+}
+
+.team-names th:last-child label {
+  text-align: right;
+}
+
+.team-names th:last-child input {
+  text-align: right;
+}
+
+.column-headings th {
+  height: 7mm;
+  padding: 1mm;
+  text-align: center;
+}
+
+thead tr:first-child th:first-child {
+  border-top-left-radius: 1.3mm;
+}
+
+thead tr:first-child th:last-child {
+  border-top-right-radius: 1.3mm;
+}
+
+tbody tr {
+  height: 10.8mm;
+}
+
+tbody th {
+  font-size: 12pt;
+  text-align: center;
+}
+
+table input {
+  width: 100%;
+  height: 100%;
+  min-height: 10.4mm;
+  border: 0;
+  border-radius: 0;
+  outline-offset: -1mm;
+  background: transparent;
+  font: inherit;
+  padding: 1mm;
+  text-align: left;
+}
+
+.player-select {
+  width: 100%;
+  height: 10.4mm;
+  border: 0;
+  border-radius: 0;
+  outline-offset: -1mm;
+  background: transparent;
+  color: currentcolor;
+  font: inherit;
+  padding: 1mm;
+}
+
+.player-select:disabled {
+  opacity: 1;
+}
+
+tbody td:nth-child(3) input,
+tbody td:nth-child(4) input,
+tfoot input {
+  text-align: center;
+}
+
+tbody tr:last-child > :first-child {
+  border-bottom-left-radius: 1.3mm;
+}
+
+tbody tr:last-child > :last-child {
+  border-bottom-right-radius: 1.3mm;
+}
+
+tfoot td {
+  height: 10.8mm;
+}
+
+tfoot td:first-child,
+tfoot td:last-child {
+  border: 0;
+}
+
+tfoot td:nth-child(2) {
+  border-left: 0.25mm solid currentcolor;
+}
+
+.arbiter-record {
+  margin-top: -0.4mm;
+}
+
+.arbiter-record input {
+  height: 7mm;
+}
+
+.arbiter-record .notes-label {
+  display: block;
+  margin: 2.2mm 1mm 0;
+  font-size: 8.5pt;
+  line-height: 1.2;
+}
+
+.arbiter-record textarea {
+  display: block;
+  width: 100%;
+  height: 49mm;
+  resize: none;
+  border: 0;
+  outline-offset: -1mm;
+  background: transparent;
+  font: inherit;
+  padding: 1mm;
+}
+
+.signatures {
+  margin-top: auto;
+}
+
+.signatures > p {
+  margin: 0 0 2.7mm;
+  text-align: center;
+}
+
+.signature-boxes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3.5mm;
+}
+
+.signature-boxes label {
+  position: relative;
+  display: block;
+  height: 18.5mm;
+  border: 0.3mm solid currentcolor;
+  border-radius: 1.3mm;
+}
+
+.signature-boxes span {
+  position: absolute;
+  z-index: 1;
+  top: 0.7mm;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.signature-boxes textarea {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  resize: none;
+  border: 0;
+  border-radius: inherit;
+  outline-offset: -1mm;
+  background: transparent;
+  font: inherit;
+  padding: 5mm 1mm 1mm;
+}
+
+input:focus,
+textarea:focus {
+  outline: 0.5mm solid #2878c8;
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+@media print {
+  html,
+  body {
+    width: 210mm;
+    height: 297mm;
+    background: #fff;
+  }
+
+  body {
+    padding: 0;
+  }
+
+  .loader-form {
+    display: none;
+  }
+
+  .player-select {
+    appearance: none;
+  }
+
+  .sheet {
+    min-height: 297mm;
+    margin: 0;
+    box-shadow: none;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  body {
+    overflow-x: auto;
+  }
+}

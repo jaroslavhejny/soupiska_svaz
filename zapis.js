@@ -268,13 +268,10 @@
     select.dataset.minimumPosition = String(minimumPosition);
 
     players.forEach(function (player) {
-      if (player.rosterPosition <= minimumPosition) {
-        return;
-      }
-
       var option = document.createElement("option");
       option.value = String(player.rosterPosition);
       option.textContent = playerLabel(player);
+      option.disabled = player.rosterPosition <= minimumPosition;
       select.appendChild(option);
     });
 
